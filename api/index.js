@@ -15,12 +15,33 @@ const soundEngine = new SoundChannelEngine();
 const handoverManager = new ChannelHandoverManager({ soundEngine });
 const activityManager = new RecentActivityManager();
 
+async function parseRequestBody(req) {
+  if (req.body) {
+    if (typeof req.body === 'object') return req.body;
+    if (typeof req.body === 'string') {
+      try { return JSON.parse(req.body); } catch (e) { return {}; }
+    }
+  }
+
+  return new Promise((resolve) => {
+    let raw = '';
+    req.on('data', chunk => raw += chunk.toString());
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(raw || '{}'));
+      } catch (e) {
+        resolve({});
+      }
+    });
+  });
+}
+
 export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = url.pathname;
 
   // CORS Headers for Production
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
@@ -32,7 +53,7 @@ export default async function handler(req, res) {
   // 1. AI REQUEST ROUTING ENDPOINT: /api/send-request
   if (pathname.includes('/send-request') && req.method === 'POST') {
     try {
-      const body = typeof req.body === 'object' ? req.body : JSON.parse(req.body || '{}');
+      const body = await parseRequestBody(req);
       const prompt = body.query || 'Emergency Triage Procedure';
       const packetId = body.packetId || `PKT-VERCEL-${Date.now()}`;
 
