@@ -1076,9 +1076,13 @@ if (typeof document !== 'undefined') {
     });
 
     async function sendOverlayMessage() {
-      const text = inputOverlayMessage.value;
+      const text = inputOverlayMessage ? inputOverlayMessage.value : '';
       const trimmed = text.trim();
-      if (trimmed.length === 0 || !activeChatId) return;
+      if (trimmed.length === 0) {
+        if (valMsgOverlay) valMsgOverlay.classList.remove('hidden');
+        return;
+      }
+      if (!activeChatId) return;
 
       const chat = conversations.find(c => c.id === activeChatId);
       if (!chat) return;
@@ -1086,8 +1090,8 @@ if (typeof document !== 'undefined') {
       const isGeminiPrompt = chat.isAi || activeChatId === 'chat-ai-assistant' || /^@(gemini|ai)\b/i.test(trimmed);
 
       if (isGeminiPrompt) {
-        inputOverlayMessage.value = '';
-        inputOverlayMessage.dispatchEvent(new Event('input'));
+        if (inputOverlayMessage) inputOverlayMessage.value = '';
+        if (charCountOverlay) charCountOverlay.textContent = '0';
         const cleanPrompt = trimmed.replace(/^@(gemini|ai)\s*/i, '');
         await dispatchAiQueryForChat(chat, cleanPrompt);
         return;
@@ -1110,8 +1114,8 @@ if (typeof document !== 'undefined') {
       chat.time = time;
       chat.lastActivityTimestamp = Date.now();
 
-      inputOverlayMessage.value = '';
-      inputOverlayMessage.dispatchEvent(new Event('input'));
+      if (inputOverlayMessage) inputOverlayMessage.value = '';
+      if (charCountOverlay) charCountOverlay.textContent = '0';
 
       LocalStorageManager.cacheMessages(chat.id, chat.messages);
       LocalStorageManager.saveConversations(conversations);
@@ -1148,12 +1152,38 @@ if (typeof document !== 'undefined') {
       }
     }
 
+    if (btnSendAiQuery) {
+      btnSendAiQuery.addEventListener('click', () => {
+        const text = inputAiQuery ? inputAiQuery.value : '';
+        if (inputAiQuery) inputAiQuery.value = '';
+        if (charCountAi) charCountAi.textContent = '0';
+        dispatchAiQuery(text);
+      });
+    }
+
+    if (inputAiQuery) {
+      inputAiQuery.addEventListener('input', () => {
+        const len = inputAiQuery.value.length;
+        if (charCountAi) charCountAi.textContent = len;
+        if (valMsgAi && len > 0) valMsgAi.classList.add('hidden');
+      });
+      inputAiQuery.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          const text = inputAiQuery.value;
+          inputAiQuery.value = '';
+          if (charCountAi) charCountAi.textContent = '0';
+          dispatchAiQuery(text);
+        }
+      });
+    }
+
     if (btnSendOverlayMessage) btnSendOverlayMessage.addEventListener('click', sendOverlayMessage);
+
     if (inputOverlayMessage) {
       inputOverlayMessage.addEventListener('input', () => {
         const len = inputOverlayMessage.value.length;
         if (charCountOverlay) charCountOverlay.textContent = len;
-        if (btnSendOverlayMessage) btnSendOverlayMessage.disabled = (len === 0);
         if (valMsgOverlay && len > 0) valMsgOverlay.classList.add('hidden');
       });
       inputOverlayMessage.addEventListener('keydown', (e) => {
