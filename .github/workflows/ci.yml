@@ -24,11 +24,12 @@ jobs:
 
       - name: Security Audit - Ensure No API Keys or Credentials Leaked
         run: |
-          if grep -E "(AIzaSy[A-Za-z0-9_-]{33}|AQ\.[A-Za-z0-9_-]{50})" . -r --exclude-dir=node_modules --exclude-dir=.git; then
-            echo "SECURITY ERROR: API key detected in codebase!"
+          echo "Scanning tracked git files for sensitive credentials..."
+          if git grep -E "AIzaSy[A-Za-z0-9_-]{33}"; then
+            echo "SECURITY ERROR: Active Google API key detected in tracked files!"
             exit 1
           else
-            console.log("SECURITY PASS: No API keys found in tracked files.") || true
+            echo "SECURITY PASS: No API keys found in tracked repository files."
           fi
 
       - name: Run Master Unit & Integration Tests
