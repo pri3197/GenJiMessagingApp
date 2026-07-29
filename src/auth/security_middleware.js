@@ -122,7 +122,7 @@ export class SecurityEngine {
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;");
+    res.setHeader('Content-Security-Policy', "default-src 'self' https://*.vercel.app https://vercel.live; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://*.vercel.app https://vercel.live wss://*.vercel.live https://generativelanguage.googleapis.com; img-src 'self' data: blob: https:;");
 
     // 6. CORS Configuration
     res.setHeader('Access-Control-Allow-Origin', '*');
