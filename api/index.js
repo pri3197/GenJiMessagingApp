@@ -63,6 +63,9 @@ async function callGoogleGeminiApi(promptText, apiKey) {
 
 async function parseRequestBody(req) {
   if (req.body) {
+    if (Buffer.isBuffer(req.body)) {
+      try { return JSON.parse(req.body.toString('utf8')); } catch (e) { return {}; }
+    }
     if (typeof req.body === 'object') return req.body;
     if (typeof req.body === 'string') {
       try { return JSON.parse(req.body); } catch (e) { return {}; }
@@ -71,7 +74,7 @@ async function parseRequestBody(req) {
 
   return new Promise((resolve) => {
     let raw = '';
-    req.on('data', chunk => raw += chunk.toString());
+    req.on('data', chunk => raw += chunk.toString('utf8'));
     req.on('end', () => {
       try {
         resolve(JSON.parse(raw || '{}'));

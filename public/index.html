@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Emergency BLE Mesh AI - Diagnostics Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body class="dark-theme">
   <!-- Mobile App Frame Wrapper -->
   <div class="mobile-app-wrapper" role="main">
@@ -45,7 +49,8 @@
 
         <div class="search-box" role="search">
           <span class="search-icon" aria-hidden="true">🔍</span>
-          <input type="text" id="inputSearchChats" placeholder="Search conversations & messages..." aria-label="Search conversations">
+          <input type="text" id="inputSearchChats" placeholder="Search conversations & messages..."
+            aria-label="Search conversations">
         </div>
 
         <div class="filter-chips" role="tablist" aria-label="Conversation Filters">
@@ -63,7 +68,8 @@
         <div id="meshErrorCard" class="error-state-card hidden" role="alert">
           <span class="error-icon">⚠️</span>
           <div class="error-title">BLE Mesh Radio Disconnected</div>
-          <div class="error-desc">Unable to discover local relays. Please verify Bluetooth permissions or check emergency channel 37.</div>
+          <div class="error-desc">Unable to discover local relays. Please verify Bluetooth permissions or check
+            emergency channel 37.</div>
           <button id="btnRetryMeshConn" class="btn btn-sm btn-primary">🔄 Re-scan Mesh</button>
         </div>
       </section>
@@ -94,20 +100,24 @@
             <span>⚡ Gateway:</span> <strong id="lblAiGatewayStatus" style="color:#34d399;">Gateway C1 (Primary)</strong>
           </div>
           <div class="ai-status-item">
-            <span>⏳ Queue:</span> <strong id="lblAiQueueStatus" style="color:#60a5fa;">Active (Worker Pool 1/30)</strong>
+            <span>⏳ Queue:</span> <strong id="lblAiQueueStatus" style="color:#60a5fa;">Active (Worker Pool
+              1/30)</strong>
           </div>
         </div>
-        
+
         <div class="ai-shortcuts" aria-label="AI Prompt Shortcuts">
-          <button class="shortcut-btn" data-prompt="SOS patient bleeding emergency triage CPR protocol">🚨 Emergency CPR</button>
-          <button class="shortcut-btn" data-prompt="Flood disaster rescue shelter locations in District 4">🌊 Flood Guide</button>
+          <button class="shortcut-btn" data-prompt="SOS patient bleeding emergency triage CPR protocol">🚨 Emergency
+            CPR</button>
+          <button class="shortcut-btn" data-prompt="Flood disaster rescue shelter locations in District 4">🌊 Flood
+            Guide</button>
           <button class="shortcut-btn" data-prompt="Legal rights during emergency curfew">⚖️ Legal SOP</button>
           <button class="shortcut-btn" data-prompt="Clean drinking water purification method">💧 Water Guide</button>
         </div>
 
         <div class="chat-thread" id="aiChatThread" role="log" aria-live="polite">
           <div class="message-bubble system-msg">
-            🤖 Dedicated AI Assistant active. Operating offline over BLE Mesh. Ask emergency prompts or follow-up questions below.
+            🤖 Dedicated AI Assistant active. Operating offline over BLE Mesh. Ask emergency prompts or follow-up
+            questions below.
           </div>
         </div>
 
@@ -115,14 +125,17 @@
           <div class="processing-spinner" aria-hidden="true"></div>
           <div class="processing-text">
             <div id="lblProcessingTitle" style="font-weight:600; color:#c084fc;">Processing AI Query...</div>
-            <div id="lblProcessingSub" style="font-size:11px; color:#9ca3af;">Routing via Multi-Factor Evaluator • Checking Gateway C1 WAN & Latency</div>
+            <div id="lblProcessingSub" style="font-size:11px; color:#9ca3af;">Routing via Multi-Factor Evaluator •
+              Checking Gateway C1 WAN & Latency</div>
           </div>
         </div>
 
         <div class="message-composer" id="aiComposer">
           <div class="composer-top">
-            <textarea id="inputAiQuery" class="composer-textarea" rows="1" placeholder="Ask AI Assistant... (Shift+Enter for multi-line)" maxlength="500" aria-label="AI Query Input"></textarea>
-            <button id="btnSendAiQuery" class="btn-send composer-send-btn" disabled aria-label="Send AI Query">📤</button>
+            <textarea id="inputAiQuery" class="composer-textarea" rows="1"
+              placeholder="Ask AI Assistant... (Shift+Enter for multi-line)" maxlength="500"
+              aria-label="AI Query Input"></textarea>
+            <button id="btnSendAiQuery" class="btn-send composer-send-btn" aria-label="Send AI Query">📤</button>
           </div>
           <div class="composer-bottom">
             <span class="char-counter"><span id="charCountAi">0</span> / 500</span>
@@ -225,7 +238,8 @@
               <div class="setting-title">Clear Storage & History</div>
               <div class="setting-desc">Purge all local storage, conversations & message cache</div>
             </div>
-            <button id="btnClearAllLocalStorage" class="btn-sm btn-p2p-action" style="color:#ef4444; border-color:rgba(239, 68, 68, 0.4);">Clear All Storage</button>
+            <button id="btnClearAllLocalStorage" class="btn-sm btn-p2p-action"
+              style="color:#ef4444; border-color:rgba(239, 68, 68, 0.4);">Clear All Storage</button>
           </div>
 
           <div class="setting-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
@@ -233,9 +247,12 @@
             <div style="display:flex; flex-wrap:wrap; gap:6px; width:100%;">
               <button id="btnTestNotifNewMsg" class="btn-sm btn-p2p-action">💬 New Message</button>
               <button id="btnTestNotifAiResp" class="btn-sm btn-ai-action">🤖 AI Response</button>
-              <button id="btnTestNotifFail" class="btn-sm btn-p2p-action" style="color:#fca5a5;">⚠️ Delivery Failure</button>
-              <button id="btnTestNotifGwUnavail" class="btn-sm btn-p2p-action" style="color:#fde047;">⚡ Gateway Unavail</button>
-              <button id="btnTestNotifMeshDisc" class="btn-sm btn-p2p-action" style="color:#f87171;">📡 Mesh Disconn</button>
+              <button id="btnTestNotifFail" class="btn-sm btn-p2p-action" style="color:#fca5a5;">⚠️ Delivery
+                Failure</button>
+              <button id="btnTestNotifGwUnavail" class="btn-sm btn-p2p-action" style="color:#fde047;">⚡ Gateway
+                Unavail</button>
+              <button id="btnTestNotifMeshDisc" class="btn-sm btn-p2p-action" style="color:#f87171;">📡 Mesh
+                Disconn</button>
             </div>
           </div>
         </div>
@@ -249,7 +266,8 @@
     </main>
 
     <!-- CHAT OVERLAY MODAL -->
-    <div id="chatOverlay" class="chat-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="overlayChatTitle">
+    <div id="chatOverlay" class="chat-overlay hidden" role="dialog" aria-modal="true"
+      aria-labelledby="overlayChatTitle">
       <div class="overlay-header">
         <button id="btnCloseOverlay" class="btn-icon" aria-label="Close Chat Window">←</button>
         <div class="overlay-title-box">
@@ -257,10 +275,14 @@
           <div id="overlayChatSub" class="overlay-sub">Mesh Contact</div>
         </div>
         <div class="overlay-action-btns">
-          <button id="btnHeaderRename" class="btn-sm btn-p2p-action" style="font-size:10px;" title="Rename Conversation" aria-label="Rename Conversation">✏️ Rename</button>
-          <button id="btnHeaderPin" class="btn-sm btn-p2p-action" style="font-size:10px;" title="Pin / Unpin Conversation" aria-label="Pin Conversation">📌 Pin</button>
-          <button id="btnHeaderArchive" class="btn-sm btn-p2p-action" style="font-size:10px;" title="Archive / Unarchive" aria-label="Archive Conversation">📦 Archive</button>
-          <button id="btnSimulateFail" class="btn-sm btn-p2p-action" style="font-size:10px;" title="Test Failed Message Retry" aria-label="Simulate Failure">⚠️ Fail Test</button>
+          <button id="btnHeaderRename" class="btn-sm btn-p2p-action" style="font-size:10px;" title="Rename Conversation"
+            aria-label="Rename Conversation">✏️ Rename</button>
+          <button id="btnHeaderPin" class="btn-sm btn-p2p-action" style="font-size:10px;"
+            title="Pin / Unpin Conversation" aria-label="Pin Conversation">📌 Pin</button>
+          <button id="btnHeaderArchive" class="btn-sm btn-p2p-action" style="font-size:10px;"
+            title="Archive / Unarchive" aria-label="Archive Conversation">📦 Archive</button>
+          <button id="btnSimulateFail" class="btn-sm btn-p2p-action" style="font-size:10px;"
+            title="Test Failed Message Retry" aria-label="Simulate Failure">⚠️ Fail Test</button>
         </div>
         <span id="overlayChatTypeBadge" class="type-badge">P2P</span>
       </div>
@@ -278,8 +300,11 @@
 
       <div class="message-composer" id="overlayComposer">
         <div class="composer-top">
-          <textarea id="inputOverlayMessage" class="composer-textarea" rows="1" placeholder="Type message over mesh... (Shift+Enter for multi-line)" maxlength="500" aria-label="Message Input"></textarea>
-          <button id="btnSendOverlayMessage" class="btn-send composer-send-btn" disabled aria-label="Send Message">📤</button>
+          <textarea id="inputOverlayMessage" class="composer-textarea" rows="1"
+            placeholder="Type message over mesh... (Shift+Enter for multi-line)" maxlength="500"
+            aria-label="Message Input"></textarea>
+          <button id="btnSendOverlayMessage" class="btn-send composer-send-btn" disabled
+            aria-label="Send Message">📤</button>
         </div>
         <div class="composer-bottom">
           <span class="char-counter"><span id="charCountOverlay">0</span> / 500</span>
@@ -296,8 +321,10 @@
           <button id="modalStartAi" class="btn btn-primary">🤖 Ask AI Assistant</button>
           <button id="modalStartP2p" class="btn btn-secondary">👥 Select Mesh Contact</button>
           <div style="margin-top:10px;">
-            <input type="text" id="inputNewCustomChat" placeholder="Or enter custom conversation title..." style="width:100%; padding:8px; border-radius:8px; border:1px solid #374151; background:var(--app-bg); color:var(--text-main); font-size:12px;">
-            <button id="btnCreateCustomChat" class="btn btn-primary btn-sm" style="width:100%; margin-top:6px;">Create Custom Chat</button>
+            <input type="text" id="inputNewCustomChat" placeholder="Or enter custom conversation title..."
+              style="width:100%; padding:8px; border-radius:8px; border:1px solid #374151; background:var(--app-bg); color:var(--text-main); font-size:12px;">
+            <button id="btnCreateCustomChat" class="btn btn-primary btn-sm" style="width:100%; margin-top:6px;">Create
+              Custom Chat</button>
           </div>
           <button id="modalClose" class="btn btn-sm" style="margin-top:8px;">Cancel</button>
         </div>
@@ -308,7 +335,8 @@
     <div id="renameModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
       <div class="modal-card">
         <h3>Rename Conversation</h3>
-        <input type="text" id="inputRenameTitle" placeholder="Enter new conversation name..." style="width:100%; padding:8px; border-radius:8px; border:1px solid #374151; background:var(--app-bg); color:var(--text-main); font-size:13px;">
+        <input type="text" id="inputRenameTitle" placeholder="Enter new conversation name..."
+          style="width:100%; padding:8px; border-radius:8px; border:1px solid #374151; background:var(--app-bg); color:var(--text-main); font-size:13px;">
         <div style="display:flex; gap:8px; margin-top:10px;">
           <button id="btnSaveRename" class="btn btn-primary" style="flex:1;">Save Name</button>
           <button id="btnCloseRename" class="btn btn-secondary" style="flex:1;">Cancel</button>
@@ -321,28 +349,33 @@
 
     <!-- Bottom Navigation Bar (Epic 8 Diagnostics Tab) -->
     <nav class="bottom-nav" role="navigation" aria-label="Main Navigation">
-      <button class="bottom-nav-item active" id="nav-chats" data-screen="chats" role="tab" aria-selected="true" aria-label="Chats tab">
+      <button class="bottom-nav-item active" id="nav-chats" data-screen="chats" role="tab" aria-selected="true"
+        aria-label="Chats tab">
         <span class="nav-icon" aria-hidden="true">💬</span>
         <span class="nav-label">Chats</span>
         <span class="nav-badge" id="navUnreadTotal">3</span>
       </button>
 
-      <button class="bottom-nav-item" id="nav-contacts" data-screen="contacts" role="tab" aria-selected="false" aria-label="Contacts tab">
+      <button class="bottom-nav-item" id="nav-contacts" data-screen="contacts" role="tab" aria-selected="false"
+        aria-label="Contacts tab">
         <span class="nav-icon" aria-hidden="true">👥</span>
         <span class="nav-label">Contacts</span>
       </button>
 
-      <button class="bottom-nav-item" id="nav-ai" data-screen="ai" role="tab" aria-selected="false" aria-label="AI Assistant tab">
+      <button class="bottom-nav-item" id="nav-ai" data-screen="ai" role="tab" aria-selected="false"
+        aria-label="AI Assistant tab">
         <span class="nav-icon" aria-hidden="true">🤖</span>
         <span class="nav-label">AI Assistant</span>
       </button>
 
-      <button class="bottom-nav-item" id="nav-diagnostics" data-screen="diagnostics" role="tab" aria-selected="false" aria-label="Diagnostics tab">
+      <button class="bottom-nav-item" id="nav-diagnostics" data-screen="diagnostics" role="tab" aria-selected="false"
+        aria-label="Diagnostics tab">
         <span class="nav-icon" aria-hidden="true">📊</span>
         <span class="nav-label">Diagnostics</span>
       </button>
 
-      <button class="bottom-nav-item" id="nav-settings" data-screen="settings" role="tab" aria-selected="false" aria-label="Settings tab">
+      <button class="bottom-nav-item" id="nav-settings" data-screen="settings" role="tab" aria-selected="false"
+        aria-label="Settings tab">
         <span class="nav-icon" aria-hidden="true">⚙️</span>
         <span class="nav-label">Settings</span>
       </button>
@@ -351,4 +384,5 @@
 
   <script type="module" src="/js/app.js"></script>
 </body>
+
 </html>
