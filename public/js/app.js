@@ -191,10 +191,7 @@ if (typeof document !== 'undefined') {
 
     let conversations = LocalStorageManager.loadConversations();
     if (!conversations) {
-      const defaultAiHistory = LocalStorageManager.loadAiHistory() || [
-        { id: 'm1', sender: 'AI Assistant', text: 'Emergency AI Assistant initialized offline over Bluetooth Mesh.', time: '13:40', isOutgoing: false, routing: 'Edge Local RAG', gateway: 'Gateway C1' },
-        { id: 'm2', sender: 'AI Assistant', text: 'Emergency SOP triage instructions available. How can I assist?', time: '13:45', isOutgoing: false, routing: 'Edge Local RAG', gateway: 'Gateway C1' }
-      ];
+      const defaultAiHistory = LocalStorageManager.loadAiHistory() || [];
 
       conversations = [
         {
@@ -206,9 +203,9 @@ if (typeof document !== 'undefined') {
           isPinned: true,
           isArchived: false,
           lastActivityTimestamp: Date.now() - 300000,
-          lastMessage: defaultAiHistory.length > 0 ? defaultAiHistory[defaultAiHistory.length - 1].text : 'Emergency AI Assistant Ready',
-          time: '13:45',
-          unreadCount: 2,
+          lastMessage: defaultAiHistory.length > 0 ? defaultAiHistory[defaultAiHistory.length - 1].text : 'Ready for emergency prompts',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          unreadCount: 0,
           messages: defaultAiHistory
         },
         {
@@ -220,13 +217,10 @@ if (typeof document !== 'undefined') {
           isPinned: true,
           isArchived: false,
           lastActivityTimestamp: Date.now() - 600000,
-          lastMessage: 'Relay B1 active in District 4. Mesh signal clear.',
-          time: '13:40',
+          lastMessage: 'Tap to start conversation over mesh',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           unreadCount: 0,
-          messages: [
-            { id: 'm3', sender: 'Node B1', text: 'Relay B1 active in District 4. Mesh signal clear.', time: '13:40', isOutgoing: false, status: 'read' },
-            { id: 'm4', sender: 'You', text: 'Confirmed, standing by for updates.', time: '13:42', isOutgoing: true, status: 'read' }
-          ]
+          messages: []
         },
         {
           id: 'chat-node-b2',
@@ -237,12 +231,10 @@ if (typeof document !== 'undefined') {
           isPinned: false,
           isArchived: false,
           lastActivityTimestamp: Date.now() - 1800000,
-          lastMessage: 'First aid supplies requested at Block 2 shelter.',
-          time: '13:15',
-          unreadCount: 1,
-          messages: [
-            { id: 'm5', sender: 'Node B2', text: 'First aid supplies requested at Block 2 shelter.', time: '13:15', isOutgoing: false, status: 'delivered' }
-          ]
+          lastMessage: 'Tap to start conversation over mesh',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          unreadCount: 0,
+          messages: []
         },
         {
           id: 'chat-gateway-c1',
@@ -253,12 +245,10 @@ if (typeof document !== 'undefined') {
           isPinned: false,
           isArchived: false,
           lastActivityTimestamp: Date.now() - 3600000,
-          lastMessage: '3000ms Heartbeat beacon online (Score: 69.25).',
-          time: '12:50',
+          lastMessage: 'Tap to start conversation over mesh',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           unreadCount: 0,
-          messages: [
-            { id: 'm6', sender: 'Gateway C1', text: '3000ms Heartbeat beacon online (Score: 69.25).', time: '12:50', isOutgoing: false, status: 'read' }
-          ]
+          messages: []
         }
       ];
 
@@ -487,9 +477,7 @@ if (typeof document !== 'undefined') {
             lastMessage: 'Emergency AI Assistant Reset',
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             unreadCount: 0,
-            messages: [
-              { id: 'm1', sender: 'AI Assistant', text: 'Emergency AI Assistant initialized offline over Bluetooth Mesh.', time: '13:40', isOutgoing: false, routing: 'Edge Local RAG', gateway: 'Gateway C1' }
-            ]
+            messages: []
           }
         ];
 
