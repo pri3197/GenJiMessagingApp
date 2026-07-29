@@ -1124,6 +1124,7 @@ if (typeof document !== 'undefined') {
           })
         });
         const data = await res.json();
+        if (data.status === 'QUEUED') {
           showToast('⏳ Node offline: Message queued in OfflineMeshQueue');
         } else if (data.status === 'DELIVERED') {
           showToast('✓✓ Message delivered over Bluetooth Mesh');
