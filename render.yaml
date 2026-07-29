@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: genji-messaging-app
+    env: node
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: HMAC_SECRET_KEY
+        generateValue: true
+      - key: LOCAL_STORAGE_MASTER_KEY
+        generateValue: true
