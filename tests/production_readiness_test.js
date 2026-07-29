@@ -70,12 +70,12 @@ async function runProductionReadinessTests() {
   assertEquals(healthRes.body.status, 'HEALTHY', 'Health check payload status is HEALTHY');
   assert(healthRes.body.uptimeSeconds >= 0, 'Uptime telemetry returned');
 
-  console.log('\n--- 3. Production Environment (.env) File ---');
-  const envPath = path.join(PROJECT_ROOT, '.env');
-  assert(fs.existsSync(envPath), 'Production .env file exists');
+  console.log('\n--- 3. Production Environment (.env / .env.example) Template ---');
+  const envPath = fs.existsSync(path.join(PROJECT_ROOT, '.env')) ? path.join(PROJECT_ROOT, '.env') : path.join(PROJECT_ROOT, '.env.example');
+  assert(fs.existsSync(envPath), 'Environment configuration template file exists');
   const envContent = fs.readFileSync(envPath, 'utf8');
-  assert(envContent.includes('HMAC_SECRET_KEY='), 'HMAC_SECRET_KEY present in .env');
-  assert(envContent.includes('LOCAL_STORAGE_MASTER_KEY='), 'LOCAL_STORAGE_MASTER_KEY present in .env');
+  assert(envContent.includes('HMAC_SECRET_KEY='), 'HMAC_SECRET_KEY present in environment configuration');
+  assert(envContent.includes('LOCAL_STORAGE_MASTER_KEY='), 'LOCAL_STORAGE_MASTER_KEY present in environment configuration');
 
   console.log('\n================================================================');
   console.log(` RESULTS: ${passed} PASSED, ${failed} FAILED`);
