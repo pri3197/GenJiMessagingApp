@@ -1074,15 +1074,18 @@ if (typeof document !== 'undefined') {
       const trimmed = text.trim();
       if (trimmed.length === 0 || !activeChatId) return;
 
-      if (activeChatId === 'chat-ai-assistant') {
-        inputOverlayMessage.value = '';
-        inputOverlayMessage.dispatchEvent(new Event('input'));
-        await dispatchAiQuery(trimmed);
-        return;
-      }
-
       const chat = conversations.find(c => c.id === activeChatId);
       if (!chat) return;
+
+      const isGeminiPrompt = chat.isAi || activeChatId === 'chat-ai-assistant' || /^@(gemini|ai)\b/i.test(trimmed);
+
+      if (isGeminiPrompt) {
+        inputOverlayMessage.value = '';
+        inputOverlayMessage.dispatchEvent(new Event('input'));
+        const cleanPrompt = trimmed.replace(/^@(gemini|ai)\s*/i, '');
+        await dispatchAiQueryForChat(chat, cleanPrompt);
+        return;
+      }
 
       const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const isNodeOnline = chat.status !== 'offline';
@@ -1121,12 +1124,6 @@ if (typeof document !== 'undefined') {
           })
         });
         const data = await res.json();
-
-        newMsg.status = data.status || 'SENT';
-        LocalStorageManager.saveConversations(conversations);
-        renderOverlayMessages(chat);
-
-        if (data.status === 'QUEUED') {
           showToast('⏳ Node offline: Message queued in OfflineMeshQueue');
         } else if (data.status === 'DELIVERED') {
           showToast('✓✓ Message delivered over Bluetooth Mesh');
