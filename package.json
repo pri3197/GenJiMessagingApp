@@ -1,0 +1,10 @@
+{
+  "name": "emergency-ble-mesh-ai",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Emergency Anti-Jamming Multi-Gateway Bluetooth Mesh AI System",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node tests/test_runner.js"
+  }
+}
