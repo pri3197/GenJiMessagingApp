@@ -1051,6 +1051,12 @@ if (typeof document !== 'undefined') {
     }
 
     if (inputAiQuery) {
+      inputAiQuery.addEventListener('input', () => {
+        const len = inputAiQuery.value.length;
+        if (charCountAi) charCountAi.textContent = len;
+        if (btnSendAiQuery) btnSendAiQuery.disabled = (len === 0);
+        if (valMsgAi && len > 0) valMsgAi.classList.add('hidden');
+      });
       inputAiQuery.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -1144,6 +1150,12 @@ if (typeof document !== 'undefined') {
 
     if (btnSendOverlayMessage) btnSendOverlayMessage.addEventListener('click', sendOverlayMessage);
     if (inputOverlayMessage) {
+      inputOverlayMessage.addEventListener('input', () => {
+        const len = inputOverlayMessage.value.length;
+        if (charCountOverlay) charCountOverlay.textContent = len;
+        if (btnSendOverlayMessage) btnSendOverlayMessage.disabled = (len === 0);
+        if (valMsgOverlay && len > 0) valMsgOverlay.classList.add('hidden');
+      });
       inputOverlayMessage.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
