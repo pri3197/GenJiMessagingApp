@@ -1041,32 +1041,7 @@ if (typeof document !== 'undefined') {
       }
     }
 
-    if (btnSendAiQuery) {
-      btnSendAiQuery.addEventListener('click', () => {
-        const text = inputAiQuery.value;
-        inputAiQuery.value = '';
-        inputAiQuery.dispatchEvent(new Event('input'));
-        dispatchAiQuery(text);
-      });
-    }
 
-    if (inputAiQuery) {
-      inputAiQuery.addEventListener('input', () => {
-        const len = inputAiQuery.value.length;
-        if (charCountAi) charCountAi.textContent = len;
-        if (btnSendAiQuery) btnSendAiQuery.disabled = (len === 0);
-        if (valMsgAi && len > 0) valMsgAi.classList.add('hidden');
-      });
-      inputAiQuery.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          const text = inputAiQuery.value;
-          inputAiQuery.value = '';
-          inputAiQuery.dispatchEvent(new Event('input'));
-          dispatchAiQuery(text);
-        }
-      });
-    }
 
     shortcutBtns.forEach(btn => {
       btn.addEventListener('click', () => {
