@@ -1,15 +1,23 @@
 services:
   - type: web
     name: genji-messaging-app
-    env: node
+    runtime: node
+    plan: free
     buildCommand: npm install
     startCommand: node src/server.js
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATABASE_URL
+        value: postgresql://postgres:HPCPtDnqF581Soek@db.jxzmqfqirbljkqfluwut.supabase.co:5432/postgres
       - key: HMAC_SECRET_KEY
         generateValue: true
       - key: LOCAL_STORAGE_MASTER_KEY
         generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
