@@ -371,6 +371,48 @@ if (typeof document !== 'undefined') {
     setupComposer(inputAiQuery, btnSendAiQuery, charCountAi, valMsgAi);
     setupComposer(inputOverlayMessage, btnSendOverlayMessage, charCountOverlay, valMsgOverlay);
 
+// Handle sending overlay messages
+if (btnSendOverlayMessage) {
+  btnSendOverlayMessage.addEventListener('click', () => {
+    const text = inputOverlayMessage.value.trim();
+    if (!text) return;
+    if (!activeChatId) {
+      showToast('No active conversation');
+      return;
+    }
+    const chat = conversations.find(c => c.id === activeChatId);
+    if (!chat) return;
+
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const msg = {
+      id: `msg-${Date.now()}`,
+      sender: 'You',
+      text,
+      time,
+      isOutgoing: true,
+      status: 'sent'
+    };
+
+    // If AI chat, delegate to existing AI dispatcher (which adds the user message)
+    if (chat.isAi) {
+      dispatchAiQuery(text);
+    } else {
+      // Regular P2P message – add locally and update UI
+      chat.messages.push(msg);
+      chat.lastActivityTimestamp = Date.now();
+      chat.lastMessage = text;
+      LocalStorageManager.saveConversations(conversations);
+      renderOverlayMessages(chat);
+    }
+
+    // Clear input and reset composer height
+    inputOverlayMessage.value = '';
+    // Re‑run composer validation to collapse textarea
+    // (setupComposer will re‑attach listener; we just call validate indirectly)
+    if (inputOverlayMessage) inputOverlayMessage.dispatchEvent(new Event('input'));
+  });
+}
+
     // EPIC 8: FETCH AND RENDER DIAGNOSTICS SCREEN
     async function loadDiagnosticsData() {
       try {
