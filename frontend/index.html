@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bluetooth Mesh Chat Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="chat-container">
+    <h1>🔗 Bluetooth Mesh Chat</h1>
+    <div class="user-controls">
+      <input id="bluetoothName" type="text" placeholder="Your Bluetooth Name" autocomplete="off" />
+      <select id="targetSelect">
+        <option value="">Broadcast to All</option>
+      </select>
+    </div>
+    <div id="chatLog" class="chat-log"></div>
+    <div class="input-group">
+      <input id="messageInput" type="text" placeholder="Type your message..." autocomplete="off" />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
